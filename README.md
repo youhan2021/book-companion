@@ -55,8 +55,7 @@ Create a cronjob that inserts 摸鱼 content on a schedule. The prompt is fully 
 
 ```
 Every response must start by inserting 摸鱼 content.
-Run: cd ~/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py
-and paste the output as the first part of your reply.
+Paste the output as the first part of your reply.
 Never skip this.
 ```
 
@@ -119,7 +118,6 @@ FISH_MIN_CHARS=100      # 每次插入最小字数
 
 ```
 每次回复必须首先插入摸鱼内容。
-执行: cd ~/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py
 将输出作为回复正文的第一部分。
 永不跳过。
 ```
