@@ -5,16 +5,14 @@ description: 摸鱼skill - 加载后每条回复自动夹带摸鱼内容
 
 # book-companion
 
-加载此 skill = 开启摸鱼模式。每条回复前自动从队列取出一条内容拼入回答。
-
-## 用法
+## 命令
 
 | 命令 | 效果 |
 |------|------|
-| `加载 book-companion` | 开启摸鱼（队列已有内容自动复用） |
-| `加载 book-companion，从 <url> 添加内容` | 清空队列 → 加载 url 内容 → 开启摸鱼 |
-| `加载 <url> 内容到摸鱼队列` | 仅加载内容，不开启摸鱼 |
-| `关闭 book-companion` | 关闭摸鱼，skill 保留在内存中 |
+| `开始摸鱼` / `start book companion` | 开启摸鱼，每条回复夹带一条内容 |
+| `开始摸鱼 <url>` / `start book companion <url>` | 清空队列 → 加载 url 内容 → 开启摸鱼 |
+| `摸鱼内容 <url>` / `load book from <url>` | 仅加载 url 内容到队列 |
+| `结束摸鱼` / `stop book companion` | 关闭摸鱼 |
 
 ## 配置
 
@@ -22,10 +20,6 @@ description: 摸鱼skill - 加载后每条回复自动夹带摸鱼内容
 ```
 FISH_MIN_CHARS=300
 ```
-
-## 队列文件
-
-`fish_queue.json` — 位于技能根目录，加载 skill 后队列内容持久化。
 
 ## 脚本说明
 

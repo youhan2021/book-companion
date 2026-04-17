@@ -26,23 +26,26 @@ git remote set-url origin https://<YOUR_TOKEN>@github.com/youhan2021/book-compan
 ### Setup
 
 ```bash
-cd book-companion
 cp config.env.example.txt config.env
 ```
 
 Optionally fill the queue with content from a URL:
-```bash
-python3 scripts/add_from_url.py https://www.purepen.com/sgyy/001.htm
+```
+start book companion https://www.purepen.com/sgyy/001.htm
+```
+Or just load content without starting:
+```
+load book from https://www.purepen.com/sgyy/001.htm
 ```
 
-### Usage
+### Commands
 
 | Command | Effect |
 |---------|--------|
-| `Load book-companion` | Start mò yú — every reply gets a passage |
-| `Load book-companion, add from <url>` | Clear queue → load url → start mò yú |
-| `Add <url> to mò yú queue` | Load content only, no mò yú |
-| `Turn off book-companion` | Stop injecting, skill stays in memory |
+| `start book companion` | Start mò yú — every reply gets a passage |
+| `start book companion <url>` | Clear queue → load url → start mò yú |
+| `load book from <url>` | Load content to queue only, no mò yú |
+| `stop book companion` | Stop injecting |
 
 ### Config
 
@@ -78,23 +81,26 @@ git remote set-url origin https://<YOUR_TOKEN>@github.com/youhan2021/book-compan
 ### 初始化
 
 ```bash
-cd book-companion
 cp config.env.example.txt config.env
 ```
 
 可选：先用 URL 填充队列内容：
-```bash
-python3 scripts/add_from_url.py https://www.purepen.com/sgyy/001.htm
+```
+开始摸鱼 https://www.purepen.com/sgyy/001.htm
+```
+或者只加载内容不开始摸鱼：
+```
+摸鱼内容 https://www.purepen.com/sgyy/001.htm
 ```
 
-### 用法
+### 命令
 
 | 命令 | 效果 |
 |------|------|
-| `加载 book-companion` | 开启摸鱼，每条回复都夹带一条内容 |
-| `加载 book-companion，从 <url> 添加内容` | 清空队列 → 加载 url 内容 → 开启摸鱼 |
-| `加载 <url> 内容到摸鱼队列` | 仅加载内容，不开启摸鱼 |
-| `关闭 book-companion` | 停止夹带，skill 保留在内存中 |
+| `开始摸鱼` | 开启摸鱼，每条回复夹带一条内容 |
+| `开始摸鱼 <url>` | 清空队列 → 加载 url 内容 → 开启摸鱼 |
+| `摸鱼内容 <url>` | 仅加载 url 内容到队列 |
+| `结束摸鱼` | 关闭摸鱼 |
 
 ### 配置
 
