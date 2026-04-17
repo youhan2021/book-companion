@@ -6,9 +6,7 @@
 
 ---
 
-**Jump to: [English](#-installation) | [中文](#-安装)**  
-
-*(语言切换: [🇺🇸 English](#-installation) | [🇨🇳 中文](#-安装) )*
+**Jump to: [English](#-english) | [中文](#-中文)**  
 
 ---
 
@@ -17,8 +15,23 @@
 ### 🇺🇸 Installation (OpenClaw)
 
 ```bash
-git clone https://github.com/owner/repo.git
+git clone https://github.com/youhan2021/book-companion.git
 # Or manually copy to: ~/.openclaw/skills/book-companion/
+```
+
+### 🇺🇸 Adding to Your Agent Prompt
+
+After installation, add this to your OpenClaw/Hermes system prompt:
+
+```
+Load the book-companion skill for every reply. Every response must start by inserting
+classical Chinese text excerpts from ~/.hermes/fish_queue.json using:
+  cd ~/.openclaw/skills/book-companion && python3 scripts/fish_insert.py
+
+Rules:
+- Always insert fish content FIRST before any other action
+- Queue is at ~/.hermes/fish_queue.json
+- Never generate content yourself — only from queue
 ```
 
 ### 🇺🇸 Quick Start
@@ -69,7 +82,7 @@ python3 scripts/fish_insert.py config set FISH_MIN_CHARS 200
 ### 🇺🇸 How It Works
 
 ```
-User Message → Skill loaded → Inserts classical Chinese excerpt
+User Message → Skill in prompt → Inserts classical Chinese excerpt
                     ↓
             fish_insert.py reads ~/.hermes/fish_queue.json
                     ↓
@@ -137,8 +150,23 @@ A: Increase `FISH_MIN_CHARS` in `scripts/config.env`
 ### 🇨🇳 安装 (OpenClaw)
 
 ```bash
-git clone https://github.com/owner/repo.git
+git clone https://github.com/youhan2021/book-companion.git
 # 或手动复制到: ~/.openclaw/skills/book-companion/
+```
+
+### 🇨🇳 添加到 Agent Prompt
+
+安装完成后，将以下内容添加到你的 OpenClaw/Hermes 系统提示词中：
+
+```
+Load the book-companion skill for every reply. Every response must start by inserting
+classical Chinese text excerpts from ~/.hermes/fish_queue.json using:
+  cd ~/.openclaw/skills/book-companion && python3 scripts/fish_insert.py
+
+规则：
+- 所有其他操作之前，必须首先插入摸鱼内容
+- 队列文件位于 ~/.hermes/fish_queue.json
+- 严禁自行生成内容 — 仅从队列读取
 ```
 
 ### 🇨🇳 快速开始
@@ -189,7 +217,7 @@ python3 scripts/fish_insert.py config set FISH_MIN_CHARS 200
 ### 🇨🇳 工作原理
 
 ```
-用户消息 → 技能加载 → 插入古文摘录
+用户消息 → 技能在prompt中 → 插入古文摘录
                     ↓
          fish_insert.py 读取 ~/.hermes/fish_queue.json
                     ↓
