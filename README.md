@@ -25,9 +25,10 @@ Run book-companion skill: add content from https://www.purepen.com/sgyy/001.htm 
 ```
 Create a book-companion cron job: every 5 minutes:
 1. Read last_sent_at from ~/.hermes/skills/leisure/book-companion/fish_queue.json
-2. Check the log file configured in config.env (ACTIVITY_LOG) for the latest Telegram inbound message time (grep "inbound message: platform=telegram")
-3. Only run "python3 scripts/fish_insert.py" in the skill directory if there is a Telegram message after last_sent_at + 30 seconds
-4. If no new activity, respond with exactly [SILENT]
+2. grep the ACTIVITY_LOG file for "inbound message: platform=telegram" to get the latest Telegram message timestamp
+3. If the latest message is older than last_sent_at + 30 seconds, output nothing (empty response suppresses delivery)
+4. If there is a newer message, run: cd ~/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py
+5. Do NOT add any explanation, commentary, or extra text
 Name it `book-companion-runner`, deliver to origin.
 ```
 
@@ -56,9 +57,10 @@ ACTIVITY_LOG=/home/ubuntu/.hermes/logs/agent.log
 ```
 创建 book-companion 的 cron job：每5分钟执行以下步骤：
 1. 从 ~/.hermes/skills/leisure/book-companion/fish_queue.json 读取 last_sent_at
-2. 检查 config.env 中配置的 ACTIVITY_LOG 文件，用 grep 查找最新的 Telegram inbound 消息时间（"inbound message: platform=telegram"）
-3. 只有当 Telegram 消息时间晚于 last_sent_at + 30秒 时，才运行 skill 目录下的 "python3 scripts/fish_insert.py"
-4. 如果没有新活动，回复 exactly [SILENT]
+2. 在 ACTIVITY_LOG 文件中 grep "inbound message: platform=telegram" 获取最新 Telegram 消息时间
+3. 如果最新消息早于 last_sent_at + 30秒，则输出为空（静默跳过）
+4. 如果有新消息，运行：cd ~/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py
+5. 不要添加任何解释、注释或额外文字
 名称为 book-companion-runner，投递到 origin。
 ```
 

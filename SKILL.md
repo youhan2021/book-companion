@@ -60,5 +60,11 @@ Run book-companion skill: add content from <URL> to the queue.
 
 **创建 cron（每5分钟，有新对话才发）：**
 ```
-Create a book-companion cron job: every 5 minutes, (1) read last_sent_at from the queue file at /home/ubuntu/.hermes/skills/leisure/book-companion/fish_queue.json, (2) check the log at /home/ubuntu/.hermes/logs/agent.log for the latest Telegram inbound message (grep "inbound message: platform=telegram"), (3) only run "python3 scripts/fish_insert.py" in the skill directory if there is a message newer than last_sent_at + 30s, (4) if no new activity respond with exactly [SILENT]. Name it book-companion-runner, deliver to origin.
+Create a book-companion cron job: every 5 minutes:
+1. Read last_sent_at from ~/.hermes/skills/leisure/book-companion/fish_queue.json
+2. grep the ACTIVITY_LOG file for "inbound message: platform=telegram" to get the latest Telegram message timestamp
+3. If the latest message is older than last_sent_at + 30 seconds, output nothing (empty response suppresses delivery)
+4. If there is a newer message, run: cd ~/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py
+5. Do NOT add any explanation, commentary, or extra text
+Name it `book-companion-runner`, deliver to origin.
 ```
