@@ -24,11 +24,6 @@
 > 📌 Agent prompt (copy and paste to agent):
 > "Create a book-companion cron job: run the `book-companion` skill every 5 minutes, but first check Telegram conversation history with `session_search`. Only send content if there has been new conversation activity since the last send. Name it `book-companion-runner`, deliver to origin."
 
-### Activate (once only)
-```bash
-python3 scripts/fish_queue.py init
-```
-
 ### Config
 
 `config.env` (skill root directory):
@@ -51,11 +46,6 @@ FISH_MIN_CHARS=100
 
 > 📌 Agent prompt（复制粘贴给 agent）：
 > "创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill，但先通过 `session_search` 查询 Telegram 对话历史，只有在上次发送后有新对话活动时才发送内容，名称为 `book-companion-runner`，投递到 origin。"
-
-### 激活（只需一次）
-```bash
-python3 scripts/fish_queue.py init
-```
 
 ### 配置
 
