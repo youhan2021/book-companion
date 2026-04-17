@@ -5,23 +5,35 @@ description: 摸鱼skill - 加载后每条回复自动夹带摸鱼内容
 
 # book-companion
 
-**激活条件（自动加载）：** 当用户说"开始摸鱼"、"开始 book companion"、"start book companion"时，必须立即执行 `skill_view("book-companion")` 加载此 skill，然后按下方流程执行。
+## 激活条件
+
+当用户说"开始摸鱼"、"开始 book companion"、"start book companion"时，**必须立即**执行：
+
+1. `skill_view("book-companion")` 加载此 skill
+2. 运行 `cd /home/ubuntu/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py`
+3. 将脚本输出**拼接在回复正文之前**
+4. 然后再处理用户的其他问题
+
+## 强制约束（每次说话后必须执行）
+
+**在处理用户任何其他问题之前**，必须先执行注入：
+
+```
+cd /home/ubuntu/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py
+```
+
+将输出拼接到回复最前面，**不要在注入内容之前添加任何文字或解释**。
+
+如果用户没有说"开始摸鱼"或类似激活语，跳过注入。
 
 ## 命令
 
 | 命令 | 效果 |
 |------|------|
-| `开始摸鱼` / `开始 book companion` / `start book companion` | **立即加载 skill**，每条回复夹带一条内容 |
-| `开始摸鱼 <url>` / `开始 book companion <url>` | 清空队列 → 加载 url 内容 → 开启摸鱼 |
+| `开始摸鱼` / `开始 book companion` / `start book companion` | **立即加载 skill 并执行注入**，之后每句话都先注入 |
+| `开始摸鱼 <url>` / `start book companion <url>` | 清空队列 → 加载 url 内容 → 开启摸鱼 |
 | `摸鱼内容 <url>` / `load book from <url>` | 仅加载 url 内容到队列 |
 | `结束摸鱼` / `stop book companion` | 关闭摸鱼 |
-
-## 流程（每次回复前必须执行）
-
-1. 加载 skill：`skill_view("book-companion")`
-2. 运行 `cd /home/ubuntu/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py`
-3. 将脚本输出**拼接**在回复正文**之前**
-4. 如果队列为空，先运行 `add_from_url.py` 加载默认内容
 
 ## 配置
 
@@ -49,4 +61,4 @@ python3 scripts/add_from_url.py <URL>
 
 ---
 
-⚠️ 注意：skill 依赖 agent 主动调用脚本，偶尔可能跳过，不保证 100% 稳定。
+⚠️ 强制执行：注入必须每次都做，不允许跳过。
