@@ -17,7 +17,7 @@
 **1. Add Content** — Fill the queue from a URL (clears old queue first)
 
 ```
-Run book-companion skill: add content from https://www.136book.com/santiheji/fqlrcvw/ to the queue.
+Run book-companion skill: add content from https://www.purepen.com/sgyy/001.htm to the queue.
 ```
 
 **2. Scheduled Output** — Create a cron job to trigger skill output automatically
@@ -42,7 +42,7 @@ FISH_MIN_CHARS=100
 **1. 添加内容** — 从 URL 提取文本填充队列（添加前清空旧队列）
 
 ```
-运行 book-companion skill：从 https://www.136book.com/santiheji/fqlrcvw/ 添加内容到队列。
+运行 book-companion skill：从 https://www.purepen.com/sgyy/001.htm 添加内容到队列。
 ```
 
 **2. 定时发出内容** — 让 agent 创建 cron job，定时触发 skill 输出内容
