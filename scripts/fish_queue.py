@@ -13,7 +13,7 @@ import json
 import sys
 import os
 
-QUEUE_FILE = os.path.expanduser("~/.hermes/fish_queue.json")
+QUEUE_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fish_queue.json")
 
 
 def load_queue():
