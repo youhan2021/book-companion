@@ -49,5 +49,5 @@ Run book-companion skill: add content from <URL> to the queue.
 
 **创建 cron（每5分钟，有新对话才发）：**
 ```
-Create a book-companion cron job: run the `book-companion` skill every 5 minutes, but first check Telegram conversation history with `session_search`. Only send content if there has been new conversation activity since the last send. Name it `book-companion-runner`, deliver to origin.
+Create a book-companion cron job: run the `book-companion` skill every 5 minutes, but first check the Telegram user's latest message time in agent.log (grep for "inbound message: platform=telegram"). Only send content if the user's last message is newer than the queue's last_sent_at. Name it `book-companion-runner`, deliver to origin.
 ```

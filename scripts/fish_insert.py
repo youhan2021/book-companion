@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 插入摸鱼内容 - 无参数调用
-通过解析 gateway.log 获取 Telegram 最后消息时间，判断是否有新活动再决定是否发送
+通过解析 agent.log 获取 Telegram inbound 消息时间，判断是否有新活动再决定是否发送
 """
 
 import json
@@ -13,7 +13,7 @@ from datetime import datetime, timezone, timedelta
 QUEUE_FILE = os.path.expanduser("~/.hermes/fish_queue.json")
 SKILL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_FILE = os.path.join(SKILL_DIR, "config.env")
-GATEWAY_LOG = os.path.expanduser("~/.hermes/logs/gateway.log")
+AGENT_LOG = os.path.expanduser("~/.hermes/logs/agent.log")
 
 MIN_CHARS = 100
 
@@ -30,13 +30,14 @@ def get_config():
 
 
 def get_last_telegram_activity_time():
-    """从 gateway.log 解析最后一条 Telegram 消息的 UTC 时间，返回 datetime 或 None"""
-    if not os.path.exists(GATEWAY_LOG):
+    """从 agent.log 解析最后一条 Telegram inbound 消息的 UTC 时间，返回 datetime 或 None"""
+    if not os.path.exists(AGENT_LOG):
         return None
-    pattern = re.compile(r'^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}),\d+ INFO gateway\.platforms\.telegram: \[Telegram\] Flushing text batch')
+    # 匹配格式: 2026-04-17 12:37:33,515 INFO __main__: inbound message: platform=telegram user=Youhan Sun chat=8644800345
+    pattern = re.compile(r'^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}),\d+ INFO __main__: inbound message: platform=telegram')
     last_time = None
     try:
-        with open(GATEWAY_LOG) as f:
+        with open(AGENT_LOG) as f:
             for line in f:
                 m = pattern.match(line)
                 if m:
@@ -47,7 +48,7 @@ def get_last_telegram_activity_time():
 
 
 def has_new_telegram_activity():
-    """检查 Telegram 是否有 last_sent_at 之后的新消息"""
+    """检查 Telegram 是否有 last_sent_at 之后的新消息（inbound）"""
     last_sent = get_last_sent_at()
     if not last_sent:
         # 从未发送过，默认有活动（第一次主动发）
@@ -58,7 +59,7 @@ def has_new_telegram_activity():
         # 无法获取日志，默认有活动（保守）
         return True
 
-    # 宽松：消息时间在 last_sent 之后30秒内也算无活动（避免时序误差）
+    # 消息时间在 last_sent 之后30秒内也算无活动（避免时序误差）
     return last_msg_time > last_sent + timedelta(seconds=30)
 
 
