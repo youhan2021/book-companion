@@ -38,7 +38,7 @@ cronjob(
 
 ### Activate (once only)
 ```bash
-python3 scripts/fish_queue.py activate
+python3 scripts/fish_queue.py init
 ```
 
 ### Config
@@ -78,7 +78,7 @@ cronjob(
 
 ### 激活（只需一次）
 ```bash
-python3 scripts/fish_queue.py activate
+python3 scripts/fish_queue.py init
 ```
 
 ### 配置

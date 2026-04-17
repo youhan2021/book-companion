@@ -3,11 +3,10 @@
 摸鱼队列管理脚本
 
 用法:
-  python3 fish_queue.py next      - 获取下一条（读取后删除）
-  python3 fish_queue.py activate  - 激活摸鱼模式
-  python3 fish_queue.py status    - 查看状态
+  python3 fish_queue.py next     - 获取下一条（读取后删除）
+  python3 fish_queue.py status   - 查看状态
   python3 fish_queue.py clear    - 清空队列
-  python3 fish_queue.py init      - 初始化队列
+  python3 fish_queue.py init     - 初始化队列
 """
 
 import json
@@ -21,7 +20,7 @@ def load_queue():
     if os.path.exists(QUEUE_FILE):
         with open(QUEUE_FILE, 'r') as f:
             return json.load(f)
-    return {"queue": [], "active": False}
+    return {"queue": []}
 
 
 def save_queue(data):
@@ -38,42 +37,32 @@ def cmd_next():
     print(content)
 
 
-def cmd_activate():
-    data = load_queue()
-    data["active"] = True
-    save_queue(data)
-    print("摸鱼模式已激活")
-
-
 def cmd_status():
     data = load_queue()
-    remaining = len(data["queue"]) if data["active"] and data["queue"] else 0
-    print(f"活跃: {data['active']}")
+    remaining = len(data["queue"]) if data["queue"] else 0
     print(f"队列总数: {len(data['queue'])}")
     print(f"剩余: {remaining}")
 
 
 def cmd_clear():
-    save_queue({"queue": [], "active": False})
+    save_queue({"queue": []})
     print("队列已清空")
 
 
 def cmd_init():
-    save_queue({"queue": [], "active": False})
+    save_queue({"queue": []})
     print("队列已初始化")
 
 
 def main():
     if len(sys.argv) < 2:
         print("用法: fish_queue.py <命令>")
-        print("命令: next, activate, status, clear, init")
+        print("命令: next, status, clear, init")
         return
 
     cmd = sys.argv[1]
     if cmd == "next":
         cmd_next()
-    elif cmd == "activate":
-        cmd_activate()
     elif cmd == "status":
         cmd_status()
     elif cmd == "clear":

@@ -59,7 +59,7 @@ def main():
     with open(QUEUE_FILE) as f:
         data = json.load(f)
 
-    if not data.get("active") or not data.get("queue"):
+    if not data.get("queue"):
         return
 
     output = []

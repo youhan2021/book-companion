@@ -21,10 +21,12 @@ python3 scripts/add_from_url.py <URL>
 python3 scripts/fish_insert.py
 ```
 
-## 激活（只需一次）
+## 管理队列
 
 ```bash
-python3 scripts/fish_queue.py activate
+python3 scripts/fish_queue.py status   # 查看状态
+python3 scripts/fish_queue.py clear    # 清空队列
+python3 scripts/fish_queue.py init     # 初始化队列
 ```
 
 ## 配置
@@ -38,7 +40,7 @@ FISH_MIN_CHARS=100
 
 `~/.hermes/fish_queue.json`
 
-格式：`{"queue": [...], "active": bool}`
+格式：`{"queue": [...], "last_sent_at": "ISO时间"}`
 
 ---
 
