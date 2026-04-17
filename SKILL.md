@@ -128,8 +128,6 @@ python3 ~/.hermes/skills/leisure/book-companion/scripts/fish_insert.py config se
 | 配置 | 默认值 | 说明 |
 |------|--------|------|
 | FISH_MIN_CHARS | 100 | 每次摸鱼最小字数，持续取直到超过此字数 |
-| FISH_INSERT_RATIO | 5 | 每N行插入1次，最少1次（优先于INTERVAL） |
-| FISH_INSERT_INTERVAL | 0 | 每N次工具调用插入一条（0表示禁用） |
 
 ## 内容来源
 
