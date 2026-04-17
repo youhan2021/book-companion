@@ -67,10 +67,9 @@ python3 scripts/fish_queue.py deactivate  # Turn off
 
 ### 🇺🇸 Configuration
 
-Edit `scripts/config.env`:
+Edit `config.env` in the skill root directory:
 ```env
 FISH_MIN_CHARS=100      # Min characters per insert (default: 100)
-FISH_INSERT_RATIO=5     # Insert once per N lines (default: 5)
 ```
 
 Or via command:
@@ -101,8 +100,7 @@ book-companion/
 └── scripts/
     ├── fish_insert.py          # Core insert logic
     ├── fish_queue.py           # Queue management
-    ├── add_from_url.py         # URL content extractor
-    └── config.env             # Runtime config
+    └── add_from_url.py         # URL content extractor
 ```
 
 ### 🇺🇸 Queue File
@@ -141,7 +139,7 @@ python3 scripts/add_from_url.py <novel_url>
 ```
 
 **Q: Character count too low**
-A: Increase `FISH_MIN_CHARS` in `scripts/config.env`
+A: Increase `FISH_MIN_CHARS` in `config.env`
 
 ---
 
@@ -202,10 +200,9 @@ python3 scripts/fish_queue.py deactivate  # 关闭摸鱼模式
 
 ### 🇨🇳 配置
 
-编辑 `scripts/config.env`：
+编辑技能根目录的 `config.env`：
 ```env
 FISH_MIN_CHARS=100      # 每次插入最小字数（默认100）
-FISH_INSERT_RATIO=5     # 每N行插入1次（默认5）
 ```
 
 或通过命令：
@@ -236,8 +233,7 @@ book-companion/
 └── scripts/
     ├── fish_insert.py          # 核心插入逻辑
     ├── fish_queue.py           # 队列管理
-    ├── add_from_url.py         # URL 内容提取
-    └── config.env             # 运行时配置
+    └── add_from_url.py         # URL 内容提取
 ```
 
 ### 🇨🇳 队列文件
@@ -276,7 +272,7 @@ python3 scripts/add_from_url.py <小说URL>
 ```
 
 **Q: 字数不够**
-A: 在 `scripts/config.env` 中调高 `FISH_MIN_CHARS`
+A: 在 `config.env` 中调高 `FISH_MIN_CHARS`
 
 ---
 
