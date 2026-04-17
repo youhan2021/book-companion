@@ -19,7 +19,12 @@
 python3 scripts/add_from_url.py <URL>
 ```
 
-**2. 定时发出内容** — 通过 cron 定时触发
+**2. 定时发出内容** — 让 agent 创建 cron job，定时触发 skill 输出内容
+
+> 📌 Agent prompt（复制粘贴给 agent）：
+> "创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill 并发出内容，名称为 `fish-watchdog`，投递到 origin。"
+
+或者手动用 cronjob 工具创建：
 ```python
 cronjob(
     action='create',
@@ -54,7 +59,12 @@ FISH_MIN_CHARS=100
 python3 scripts/add_from_url.py <URL>
 ```
 
-**2. 定时发出内容** — 通过 cron 定时触发
+**2. 定时发出内容** — 让 agent 创建 cron job，定时触发 skill 输出内容
+
+> 📌 Agent prompt（复制粘贴给 agent）：
+> "创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill 并发出内容，名称为 `fish-watchdog`，投递到 origin。"
+
+或者手动用 cronjob 工具创建：
 ```python
 cronjob(
     action='create',
