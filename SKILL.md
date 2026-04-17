@@ -5,14 +5,23 @@ description: 摸鱼skill - 加载后每条回复自动夹带摸鱼内容
 
 # book-companion
 
+**激活条件（自动加载）：** 当用户说"开始摸鱼"、"开始 book companion"、"start book companion"时，必须立即执行 `skill_view("book-companion")` 加载此 skill，然后按下方流程执行。
+
 ## 命令
 
 | 命令 | 效果 |
 |------|------|
-| `开始摸鱼` / `start book companion` | 开启摸鱼，每条回复夹带一条内容 |
-| `开始摸鱼 <url>` / `start book companion <url>` | 清空队列 → 加载 url 内容 → 开启摸鱼 |
+| `开始摸鱼` / `开始 book companion` / `start book companion` | **立即加载 skill**，每条回复夹带一条内容 |
+| `开始摸鱼 <url>` / `开始 book companion <url>` | 清空队列 → 加载 url 内容 → 开启摸鱼 |
 | `摸鱼内容 <url>` / `load book from <url>` | 仅加载 url 内容到队列 |
 | `结束摸鱼` / `stop book companion` | 关闭摸鱼 |
+
+## 流程（每次回复前必须执行）
+
+1. 加载 skill：`skill_view("book-companion")`
+2. 运行 `cd /home/ubuntu/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py`
+3. 将脚本输出**拼接**在回复正文**之前**
+4. 如果队列为空，先运行 `add_from_url.py` 加载默认内容
 
 ## 配置
 
@@ -24,7 +33,7 @@ FISH_MIN_CHARS=300
 ## 脚本说明
 
 ### fish_insert.py
-每次运行从队列 pop 一条内容输出。**由 agent 在回复前调用**，不是定时执行。
+每次运行从队列 pop 一条内容输出。
 
 ### fish_queue.py
 ```bash
