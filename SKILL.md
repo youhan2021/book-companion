@@ -11,7 +11,7 @@ description: 摸鱼skill - 加载后每条回复自动夹带摸鱼内容
 
 1. `skill_view("book-companion")` 加载此 skill
 2. 运行 `cd /home/ubuntu/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py`
-3. 将脚本输出**拼接在回复正文之前**
+3. **脚本输出直接作为回复**，不要分析、不要解释、不要加任何文字
 4. 然后再处理用户的其他问题
 
 ## 强制约束（每次说话后必须执行）
@@ -22,7 +22,7 @@ description: 摸鱼skill - 加载后每条回复自动夹带摸鱼内容
 cd /home/ubuntu/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py
 ```
 
-将输出拼接到回复最前面，**不要在注入内容之前添加任何文字或解释**。
+**脚本输出直接作为回复**，不要分析、不要解释、不要加其他文字。就是脚本输出什么，回复就是什么。
 
 如果用户没有说"开始摸鱼"或类似激活语，跳过注入。
 
