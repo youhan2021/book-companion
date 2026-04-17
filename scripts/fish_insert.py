@@ -14,7 +14,7 @@ import os
 
 SKILL_DIR = os.path.dirname(os.path.abspath(__file__))
 QUEUE_SCRIPT = os.path.join(SKILL_DIR, "fish_queue.py")
-CONFIG_FILE = os.path.join(SKILL_DIR, "config.env")
+CONFIG_FILE = os.path.join(os.path.dirname(SKILL_DIR), "config.env")
 
 
 def load_config():
