@@ -9,8 +9,8 @@ import os
 import sys
 from datetime import datetime, timezone
 
-QUEUE_FILE = os.path.join(SKILL_DIR, "fish_queue.json")
 SKILL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+QUEUE_FILE = os.path.join(SKILL_DIR, "fish_queue.json")
 CONFIG_FILE = os.path.join(SKILL_DIR, "config.env")
 
 MIN_CHARS = 100

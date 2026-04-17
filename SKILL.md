@@ -40,19 +40,3 @@ FISH_MIN_CHARS=100
 `~/.hermes/skills/leisure/book-companion/fish_queue.json`
 
 格式：`{"queue": [...], "last_sent_at": "ISO时间"}`
-
-## 定时发出内容
-
-通过 cron 触发，参考以下 prompt 创建 agent cron job。
-
-## cron 创建 prompt
-
-**添加内容：**
-```
-Run book-companion skill: add content from <URL> to the queue.
-```
-
-**创建 cron（每5分钟，有新对话才发）：**
-```
-Create a book-companion cron job: run the `book-companion` skill every 5 minutes. Before running, use session_search to check if there is any Telegram user message since the queue's last_sent_at. Only run the skill's fish_insert.py if there is new Telegram activity. If there is no new activity, respond with exactly [SILENT]. Name it `book-companion-runner`, deliver to origin.
-```
