@@ -23,7 +23,7 @@ Run book-companion skill: add content from https://www.purepen.com/sgyy/001.htm 
 **2. Scheduled Output** — Create a cron job to trigger skill output automatically
 
 ```
-Create a book-companion cron job: run the `book-companion` skill every 5 minutes, but first check Telegram conversation history with `session_search`. Only send content if there has been new conversation activity since the last send. Name it `book-companion-runner`, deliver to origin.
+Create a book-companion cron job: run the `book-companion` skill every 5 minutes. It will automatically check Telegram conversation activity and only send content if there is new user activity. Name it `book-companion-runner`, deliver to origin.
 ```
 
 ### Config
@@ -48,7 +48,7 @@ FISH_MIN_CHARS=100
 **2. 定时发出内容** — 让 agent 创建 cron job，定时触发 skill 输出内容
 
 ```
-创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill，但先通过 `session_search` 查询 Telegram 对话历史，只有在上次发送后有新对话活动时才发送内容，名称为 `book-companion-runner`，投递到 origin。
+创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill，它会自动检查 Telegram 对话活动，只在新用户活动时才发送内容，名称为 `book-companion-runner`，投递到 origin。
 ```
 
 ### 配置
