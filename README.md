@@ -22,7 +22,7 @@ python3 scripts/add_from_url.py <URL>
 **2. 定时发出内容** — 让 agent 创建 cron job，定时触发 skill 输出内容
 
 > 📌 Agent prompt（复制粘贴给 agent）：
-> "创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill 并发出内容，名称为 `fish-watchdog`，投递到 origin。"
+> "创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill 并发出内容，名称为 `book-companion-runner`，投递到 origin。"
 
 或者手动用 cronjob 工具创建：
 ```python
@@ -30,7 +30,7 @@ cronjob(
     action='create',
     prompt='Run book-companion skill and output the content.',
     schedule='*/5 * * * *',
-    name='fish-watchdog',
+    name='book-companion-runner',
     deliver='origin',
     skills=['book-companion']
 )
@@ -62,7 +62,7 @@ python3 scripts/add_from_url.py <URL>
 **2. 定时发出内容** — 让 agent 创建 cron job，定时触发 skill 输出内容
 
 > 📌 Agent prompt（复制粘贴给 agent）：
-> "创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill 并发出内容，名称为 `fish-watchdog`，投递到 origin。"
+> "创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill 并发出内容，名称为 `book-companion-runner`，投递到 origin。"
 
 或者手动用 cronjob 工具创建：
 ```python
@@ -70,7 +70,7 @@ cronjob(
     action='create',
     prompt='Run book-companion skill and output the content.',
     schedule='*/5 * * * *',
-    name='fish-watchdog',
+    name='book-companion-runner',
     deliver='origin',
     skills=['book-companion']
 )
