@@ -30,9 +30,9 @@ Run book-companion skill: setup config
 
 | Prompt | Effect |
 |---------|--------|
-| `start book companion` | Start mò yú — every reply gets a passage |
-| `start book companion <url>` | Clear queue → load url → start mò yú |
-| `load book from <url>` | Load content to queue only, no mò yú |
+| `start book companion` | Start book companion — every reply gets a passage |
+| `start book companion <url>` | Clear queue → load url → start book companion |
+| `load book from <url>` | Load content to queue only, no book companion |
 | `stop book companion` | Stop injecting |
 
 ### Config
