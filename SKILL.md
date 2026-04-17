@@ -19,7 +19,6 @@ python3 scripts/add_from_url.py <URL>
 ```bash
 python3 scripts/fish_queue.py status   # 查看状态
 python3 scripts/fish_queue.py clear    # 清空队列
-python3 scripts/fish_queue.py init     # 初始化队列
 ```
 
 ## 配置
@@ -35,8 +34,20 @@ FISH_MIN_CHARS=100
 
 格式：`{"queue": [...], "last_sent_at": "ISO时间"}`
 
----
-
 ## 定时发出内容
 
-让 agent 创建 cron job，参考 README 中的 prompt。
+通过 cron 触发，参考 README 中的 prompt 创建 agent cron job。
+
+---
+
+## README prompt 模板
+
+**添加内容：**
+```
+Run book-companion skill: add content from <URL> to the queue.
+```
+
+**创建 cron（每5分钟，有新对话才发）：**
+```
+Create a book-companion cron job: run the `book-companion` skill every 5 minutes, but first check Telegram conversation history with `session_search`. Only send content if there has been new conversation activity since the last send. Name it `book-companion-runner`, deliver to origin.
+```
