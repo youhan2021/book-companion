@@ -2,7 +2,7 @@
 
 > 📚 Insert classical Chinese text excerpts into your conversations
 
-**book-companion** manages a queue of classical Chinese text excerpts. Call `fish_insert.py` and paste the output into your replies.
+两个功能：**添加内容** 和 **定时发出内容**。
 
 ---
 
@@ -12,48 +12,14 @@
 
 ## 🇺🇸 English
 
-### Installation
+### 两个功能
 
+**1. 添加内容** — 从 URL 提取文本填充队列（添加前清空旧队列）
 ```bash
-git clone https://github.com/youhan2021/book-companion.git
-# Copy to: ~/.hermes/skills/book-companion/
-```
-
-### Setup
-
-```bash
-cd ~/.hermes/skills/book-companion
-
-# Activate
-python3 scripts/fish_queue.py activate
-
-# Add content from URL (clears old queue first)
 python3 scripts/add_from_url.py <URL>
-
-# Manual insert
-python3 scripts/fish_insert.py
 ```
 
-### Queue Management
-
-```bash
-python3 scripts/fish_queue.py status      # View status
-python3 scripts/fish_queue.py clear       # Clear queue
-python3 scripts/fish_queue.py deactivate  # Turn off
-```
-
-### Configuration
-
-Edit `config.env` in skill root:
-```env
-FISH_MIN_CHARS=100      # Min characters per insert
-```
-
-### Cron Integration
-
-Create a cronjob that runs book-companion skill every 5 minutes and outputs the content.
-
-In Hermes, use:
+**2. 定时发出内容** — 通过 cron 定时触发
 ```python
 cronjob(
     action='create',
@@ -63,54 +29,32 @@ cronjob(
     deliver='origin',
     skills=['book-companion']
 )
+```
+
+### 激活（只需一次）
+```bash
+python3 scripts/fish_queue.py activate
+```
+
+### 配置
+
+`config.env`（技能根目录）:
+```
+FISH_MIN_CHARS=100
 ```
 
 ---
 
 ## 🇨🇳 中文
 
-### 安装
+### 两个功能
 
+**1. 添加内容** — 从 URL 提取文本填充队列（添加前清空旧队列）
 ```bash
-git clone https://github.com/youhan2021/book-companion.git
-# 复制到: ~/.hermes/skills/book-companion/
-```
-
-### 快速开始
-
-```bash
-cd ~/.hermes/skills/book-companion
-
-# 激活
-python3 scripts/fish_queue.py activate
-
-# 从 URL 添加内容（先清空旧队列）
 python3 scripts/add_from_url.py <URL>
-
-# 手动插入
-python3 scripts/fish_insert.py
 ```
 
-### 队列管理
-
-```bash
-python3 scripts/fish_queue.py status      # 查看状态
-python3 scripts/fish_queue.py clear       # 清空队列
-python3 scripts/fish_queue.py deactivate  # 关闭
-```
-
-### 配置
-
-编辑技能根目录 `config.env`：
-```env
-FISH_MIN_CHARS=100      # 每次插入最小字数
-```
-
-### Cron 集成
-
-创建 cronjob，每5分钟运行一次 book-companion skill 并输出内容。
-
-在 Hermes 中使用：
+**2. 定时发出内容** — 通过 cron 定时触发
 ```python
 cronjob(
     action='create',
@@ -120,6 +64,18 @@ cronjob(
     deliver='origin',
     skills=['book-companion']
 )
+```
+
+### 激活（只需一次）
+```bash
+python3 scripts/fish_queue.py activate
+```
+
+### 配置
+
+`config.env`（技能根目录）:
+```
+FISH_MIN_CHARS=100
 ```
 
 ---
