@@ -46,9 +46,6 @@ python3 scripts/fish_queue.py activate
 ```bash
 python3 scripts/add_from_url.py <URL>
 ```
-Supported: 笔趣阁 mirrors, purepen.com  
-Example: `python3 scripts/add_from_url.py https://www.purepen.com/huagong/`
-
 > ⚠️ Adding new content **clears the existing queue** first.
 
 **Manual insert:**
@@ -179,9 +176,6 @@ python3 scripts/fish_queue.py activate
 ```bash
 python3 scripts/add_from_url.py <URL>
 ```
-支持：笔趣阁各镜像、purepen.com  
-示例：`python3 scripts/add_from_url.py https://www.purepen.com/huagong/`
-
 > ⚠️ 添加新内容会先清空现有队列。
 
 **手动插入：**
