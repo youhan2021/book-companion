@@ -22,13 +22,13 @@ python3 scripts/add_from_url.py <URL>
 **2. Scheduled Output** — Create a cron job to trigger skill output automatically
 
 > 📌 Agent prompt (copy and paste to agent):
-> "Create a book-companion cron job: run the `book-companion` skill and output content every 5 minutes, name it `book-companion-runner`, deliver to origin."
+> "Create a book-companion cron job: run the `book-companion` skill every 5 minutes, but first check Telegram conversation history with `session_search`. Only send content if there has been new conversation activity since the last send. Name it `book-companion-runner`, deliver to origin."
 
 Or create manually with the cronjob tool:
 ```python
 cronjob(
     action='create',
-    prompt='Run book-companion skill and output the content.',
+    prompt='Run book-companion skill: first check Telegram conversation history with session_search. Only send content if there has been new activity since the last send.',
     schedule='*/5 * * * *',
     name='book-companion-runner',
     deliver='origin',
@@ -62,13 +62,13 @@ python3 scripts/add_from_url.py <URL>
 **2. 定时发出内容** — 让 agent 创建 cron job，定时触发 skill 输出内容
 
 > 📌 Agent prompt（复制粘贴给 agent）：
-> "创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill 并发出内容，名称为 `book-companion-runner`，投递到 origin。"
+> "创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill，但先通过 `session_search` 查询 Telegram 对话历史，只有在上次发送后有新对话活动时才发送内容，名称为 `book-companion-runner`，投递到 origin。"
 
 或者手动用 cronjob 工具创建：
 ```python
 cronjob(
     action='create',
-    prompt='Run book-companion skill and output the content.',
+    prompt='Run book-companion skill: first check Telegram conversation history with session_search. Only send content if there has been new activity since the last send.',
     schedule='*/5 * * * *',
     name='book-companion-runner',
     deliver='origin',

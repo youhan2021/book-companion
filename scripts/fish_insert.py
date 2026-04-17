@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """
 插入摸鱼内容 - 无参数调用，输出符合最小字数要求的内容
+发送后将当前时间写入 last_sent_at 字段（用于 cron 判断是否跳过）
 """
 
 import json
 import os
 import sys
+from datetime import datetime, timezone
 
 QUEUE_FILE = os.path.expanduser("~/.hermes/fish_queue.json")
 SKILL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,6 +25,29 @@ def get_config():
                 if k.strip() == 'FISH_MIN_CHARS':
                     return int(v.strip())
     return MIN_CHARS
+
+
+def get_last_sent_at():
+    """从队列文件读取上次发送时间，返回 UTC datetime 或 None"""
+    if not os.path.exists(QUEUE_FILE):
+        return None
+    with open(QUEUE_FILE) as f:
+        data = json.load(f)
+    ts = data.get("last_sent_at")
+    if ts:
+        return datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    return None
+
+
+def set_last_sent_now():
+    """将当前 UTC 时间写入队列文件的 last_sent_at"""
+    if not os.path.exists(QUEUE_FILE):
+        return
+    with open(QUEUE_FILE) as f:
+        data = json.load(f)
+    data["last_sent_at"] = datetime.now(timezone.utc).isoformat()
+    with open(QUEUE_FILE, 'w') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
 
 def main():
@@ -48,6 +73,7 @@ def main():
     if output:
         with open(QUEUE_FILE, 'w') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
+        set_last_sent_now()
         print('\n'.join(output))
 
 
