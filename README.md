@@ -1,96 +1,76 @@
-# book-companion 摸鱼技能
+# book-companion 读书陪伴技能
 
-> 🐟 A leisure reading companion skill — automatically inserts classical Chinese text excerpts between your conversations
+> 📚 A reading companion skill — insert classical Chinese text excerpts into your conversations
 
-**book-companion** is a skill for Hermes Agent that manages a reading queue of classical Chinese texts. After activation, every reply will automatically include excerpts from the queue, creating a meditative "摸鱼" (slacking) experience woven into your work sessions.
+**book-companion** is a skill that manages a reading queue of classical Chinese texts. It can insert excerpts from the queue into your conversations, serving as a meditative reading companion. While 摸鱼 (slacking) is one popular use case, it's equally great for language learning, cultural exploration, or simply enjoying classical literature in daily chat.
 
 ---
 
-## 📦 Installation | 安装
-
-### From GitHub
+## 📦 Installation (OpenClaw)
 
 ```bash
-cd ~/.hermes/skills/leisure
+# Via git clone
 git clone https://github.com/owner/repo.git
-```
 
-### Manual Setup
-
-```bash
-# 1. Create the skill directory
-mkdir -p ~/.hermes/skills/leisure/book-companion
-
-# 2. Copy all files from this repo into that directory
-# 3. The queue file will be created automatically at:
-~/.hermes/fish_queue.json
+# Or manually copy this directory into your OpenClaw skills folder:
+# ~/.openclaw/skills/book-companion/
 ```
 
 ---
 
-## 🚀 Quick Start | 快速开始
+## 🚀 Quick Start
 
-### Activate the Skill
+### Activate
 
 ```bash
-cd ~/.hermes/skills/leisure/book-companion
+cd ~/.openclaw/skills/book-companion
 python3 scripts/fish_queue.py activate
 ```
 
-### Add Content from URL | 从 URL 添加内容
+### Add Content from URL
 
 ```bash
-# Supported sites: 笔趣阁 (various), purepen.com
 python3 scripts/add_from_url.py <URL>
 ```
+
+Supported sites: 笔趣阁 (various mirrors), purepen.com
 
 Example:
 ```bash
 python3 scripts/add_from_url.py https://www.purepen.com/huagong/
 ```
 
-⚠️ Adding new content **clears the existing queue** first.
+> ⚠️ Adding new content **clears the existing queue** first.
 
----
-
-## 📖 Usage | 使用方法
-
-### Insert Fish Content | 插入摸鱼内容
-
-The skill is called automatically by Hermes Agent on every reply. To manually trigger an insert:
+### Manual Insert
 
 ```bash
 python3 scripts/fish_insert.py
 ```
 
-This outputs the next excerpt from the queue (or multiple excerpts until the minimum character count is reached).
+---
 
-### Manage the Queue | 管理队列
+## 📖 Usage
+
+### Queue Management
 
 ```bash
-# View status
-python3 scripts/fish_queue.py status
-
-# Get next item (reads and removes it)
-python3 scripts/fish_queue.py next
-
-# Clear the queue
-python3 scripts/fish_queue.py clear
-
-# Deactivate fish mode
-python3 scripts/fish_queue.py deactivate
+python3 scripts/fish_queue.py status    # View status
+python3 scripts/fish_queue.py next     # Get next item (removes it)
+python3 scripts/fish_queue.py clear     # Clear queue
+python3 scripts/fish_queue.py deactivate  # Turn off
 ```
 
-### Configuration | 配置
+### Configuration
 
 Edit `scripts/config.env`:
 
 ```env
-FISH_MIN_CHARS=100      # Minimum characters per insert (default: 100)
-FISH_INSERT_RATIO=5     # Insert once per N lines of reply (default: 5)
+FISH_MIN_CHARS=100      # Min characters per insert (default: 100)
+FISH_INSERT_RATIO=5     # Insert once per N lines (default: 5)
 ```
 
-Or use the config command:
+Or via command:
 
 ```bash
 python3 scripts/fish_insert.py config get FISH_MIN_CHARS
@@ -99,49 +79,43 @@ python3 scripts/fish_insert.py config set FISH_MIN_CHARS 200
 
 ---
 
-## 🔧 How It Works | 工作原理
+## 🔧 How It Works
 
 ```
 User Message
     │
     ▼
-Hermes loads book-companion skill
-    │
-    ▼
-[Rule 0 - Iron Rule]
-Every reply MUST start by inserting fish content
+Skill loaded → every reply inserts a classical Chinese excerpt
     │
     ▼
 fish_insert.py reads from ~/.hermes/fish_queue.json
     │
     ▼
-Loops until total characters >= FISH_MIN_CHARS (default 100)
+Loops until characters >= FISH_MIN_CHARS (default 100)
     │
     ▼
-Output is pasted directly into the reply body
+Output pasted into reply body
 ```
 
 ---
 
-## 📁 File Structure | 文件结构
+## 📁 File Structure
 
 ```
 book-companion/
-├── SKILL.md                          # Skill definition & rules
-├── README.md                         # This file
-├── config.env                        # Global config
-├── config.env.example.txt            # Config template
+├── SKILL.md                    # Skill definition & rules
+├── README.md                   # This file
+├── config.env                  # Global config
 └── scripts/
-    ├── fish_insert.py                # Core insert logic
-    ├── fish_queue.py                 # Queue management
-    ├── add_from_url.py               # URL content extractor
-    ├── fish_watchdog.sh              # Watchdog monitor (optional)
-    └── config.env                    # Runtime config
+    ├── fish_insert.py          # Core insert logic
+    ├── fish_queue.py           # Queue management
+    ├── add_from_url.py         # URL content extractor
+    └── config.env             # Runtime config
 ```
 
 ---
 
-## ⚙️ Queue File | 队列文件
+## ⚙️ Queue File
 
 **Location:** `~/.hermes/fish_queue.json`
 
@@ -157,23 +131,23 @@ book-companion/
 }
 ```
 
-Each `fish_queue.py next` call removes the first item permanently.
+Each `next` call permanently removes the first item.
 
 ---
 
-## ⚠️ Important Rules | 重要规则
+## ⚠️ Rules
 
-1. **Rule 0 (Iron Rule):** Every reply MUST insert fish content first — never skip
-2. **Queue only:** Content comes strictly from the queue — never generate content
+1. **Rule 0:** Every reply inserts fish content first — never skip
+2. **Queue only:** Content comes strictly from the queue — never generate
 3. **Clear on add:** Adding new content clears the existing queue
 4. **Sequential read:** Items are read in order — no random
 
 ---
 
-## 🔍 Troubleshooting | 故障排除
+## 🔍 Troubleshooting
 
 **Q: Nothing happens when I call `fish_insert.py`**
-A: Check that `~/.hermes/fish_queue.json` exists and has items:
+A: Check the queue exists and has items:
 ```bash
 python3 scripts/fish_queue.py status
 ```
