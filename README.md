@@ -12,19 +12,19 @@
 
 ## 🇺🇸 English
 
-### 两个功能
+### Two Functions
 
-**1. 添加内容** — 从 URL 提取文本填充队列（添加前清空旧队列）
+**1. Add Content** — Fill the queue from a URL (clears old queue first)
 ```bash
 python3 scripts/add_from_url.py <URL>
 ```
 
-**2. 定时发出内容** — 让 agent 创建 cron job，定时触发 skill 输出内容
+**2. Scheduled Output** — Create a cron job to trigger skill output automatically
 
-> 📌 Agent prompt（复制粘贴给 agent）：
-> "创建 book-companion 的 cron job：每5分钟自动运行 `book-companion` skill 并发出内容，名称为 `book-companion-runner`，投递到 origin。"
+> 📌 Agent prompt (copy and paste to agent):
+> "Create a book-companion cron job: run the `book-companion` skill and output content every 5 minutes, name it `book-companion-runner`, deliver to origin."
 
-或者手动用 cronjob 工具创建：
+Or create manually with the cronjob tool:
 ```python
 cronjob(
     action='create',
@@ -36,14 +36,14 @@ cronjob(
 )
 ```
 
-### 激活（只需一次）
+### Activate (once only)
 ```bash
 python3 scripts/fish_queue.py activate
 ```
 
-### 配置
+### Config
 
-`config.env`（技能根目录）:
+`config.env` (skill root directory):
 ```
 FISH_MIN_CHARS=100
 ```
