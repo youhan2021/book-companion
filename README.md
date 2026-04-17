@@ -171,6 +171,7 @@ classical Chinese text excerpts from ~/.hermes/fish_queue.json using:
 cd ~/.openclaw/skills/book-companion
 python3 scripts/fish_queue.py activate
 ```
+> ⚠️ 激活后需要手动创建 watchdog cronjob（见我创建后我会自动处理）
 
 **从 URL 添加内容：**
 ```bash

@@ -59,6 +59,68 @@ def cmd_activate():
     save_queue(data)
     print("摸鱼模式已激活")
 
+    # 自动创建看门狗 cronjob（每2分钟检查一次）
+    _setup_watchdog_cron()
+
+
+def _setup_watchdog_cron():
+    """设置看门狗 cronjob——自动每2分钟插入一次摸鱼，防止遗漏"""
+    try:
+        from hermes_tools import cronjob
+
+        # 先尝试删除旧的同名 cron（忽略错误）
+        try:
+            existing = cronjob(action='list')
+            for j in (existing or []):
+                if j.get('name') == 'fish-watchdog':
+                    cronjob(action='remove', job_id=j['id'])
+        except Exception:
+            pass
+
+        # Hermes cronjob（附载 book-companion skill 以获取约束）
+        cronjob(
+            action='create',
+            prompt=(
+                "Every response must start by inserting 摸鱼 content. "
+                "Run: cd ~/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py "
+                "and paste the output as the first part of your reply. "
+                "The queue is at ~/.hermes/fish_queue.json, active=true. "
+                "Never skip this insertion."
+            ),
+            schedule='*/2 * * * *',
+            name='fish-watchdog',
+            deliver='origin',
+            skills=['book-companion']
+        )
+        print("Watchdog cron created (every 2 minutes)")
+    except Exception as e:
+        # Hermes cron 不可用时，尝试 OpenClaw cron
+        _setup_openclaw_cron()
+        print(f"Hermes cron note: {e}")
+
+
+def _setup_openclaw_cron():
+    """尝试设置 OpenClaw cronjob（如果 OpenClaw 可用）"""
+    import subprocess
+    try:
+        # 检查 OpenClaw 是否存在
+        if not subprocess.run(['bash', '-c', 'command -v openclaw || [ -d "$HOME/.openclaw" ]'],
+                             capture_output=True).returncode == 0:
+            return
+
+        # 尝试用 openclaw cron 命令创建定时任务
+        result = subprocess.run(
+            ['openclaw', 'cron', 'create',
+             '--name', 'fish-watchdog',
+             '--schedule', '*/2 * * * *',
+             '--', 'cd ~/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py'],
+            capture_output=True, text=True, timeout=10
+        )
+        if result.returncode == 0:
+            print("OpenClaw watchdog cron created")
+    except Exception:
+        pass
+
 
 def cmd_status():
     """查看队列状态"""
