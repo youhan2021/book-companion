@@ -37,6 +37,6 @@ FISH_MIN_CHARS=100
 
 ## 队列文件
 
-`~/.hermes/skills/leisure/book-companion/fish_queue.json`
+`fish_queue.json`
 
 格式：`{"queue": [...], "last_sent_at": "ISO时间"}`

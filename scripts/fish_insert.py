@@ -1,30 +1,71 @@
 #!/usr/bin/env python3
 """
 插入摸鱼内容 - 无参数调用
-直接输出下一条内容（由 agent 通过 session_search 判断是否应该发送）
+通过解析 config.env 中指定的 log 文件检测 Telegram inbound 消息时间
 """
 
 import json
 import os
+import re
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 SKILL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 QUEUE_FILE = os.path.join(SKILL_DIR, "fish_queue.json")
 CONFIG_FILE = os.path.join(SKILL_DIR, "config.env")
 
 MIN_CHARS = 100
+DEFAULT_LOG = "/home/ubuntu/.hermes/logs/agent.log"
 
 
 def get_config():
+    """读取 config.env，返回字典"""
+    config = {"ACTIVITY_LOG": DEFAULT_LOG}
     if os.path.exists(CONFIG_FILE):
         for line in open(CONFIG_FILE):
             line = line.strip()
             if line and not line.startswith('#') and '=' in line:
                 k, v = line.split('=', 1)
-                if k.strip() == 'FISH_MIN_CHARS':
-                    return int(v.strip())
-    return MIN_CHARS
+                config[k.strip()] = v.strip()
+    return config
+
+
+def get_activity_log():
+    return get_config().get("ACTIVITY_LOG", DEFAULT_LOG)
+
+
+def get_last_telegram_activity_time():
+    """从 config.env 指定的 log 文件解析最后一条 Telegram inbound 消息时间"""
+    log_path = get_activity_log()
+    if not os.path.exists(log_path):
+        return None
+    # 匹配格式: 2026-04-17 12:37:33,515 INFO __main__: inbound message: platform=telegram user=Youhan Sun
+    pattern = re.compile(
+        r'^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}),\d+ INFO __main__: inbound message: platform=telegram'
+    )
+    last_time = None
+    try:
+        with open(log_path) as f:
+            for line in f:
+                m = pattern.match(line)
+                if m:
+                    last_time = datetime.strptime(m.group(1), '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc)
+    except Exception:
+        pass
+    return last_time
+
+
+def has_new_telegram_activity():
+    """检查 Telegram 是否有 last_sent_at 之后的新消息（inbound）"""
+    last_sent = get_last_sent_at()
+    if not last_sent:
+        return True  # 从未发送过，默认有活动
+
+    last_msg_time = get_last_telegram_activity_time()
+    if not last_msg_time:
+        return True  # 无法获取日志，保守
+
+    return last_msg_time > last_sent + timedelta(seconds=30)
 
 
 def get_last_sent_at():
@@ -51,8 +92,6 @@ def set_last_sent_now():
 
 
 def main():
-    min_chars = get_config()
-
     if not os.path.exists(QUEUE_FILE):
         return
 
@@ -61,6 +100,13 @@ def main():
 
     if not data.get("queue"):
         return
+
+    # 检查 Telegram 是否有新消息
+    if not has_new_telegram_activity():
+        return
+
+    config = get_config()
+    min_chars = int(config.get("FISH_MIN_CHARS", MIN_CHARS))
 
     output = []
     total = 0
