@@ -51,20 +51,14 @@ FISH_MIN_CHARS=100      # Min characters per insert
 
 ### Cron Integration
 
-Create a cronjob that inserts 摸鱼 content on a schedule. The prompt is fully customizable:
-
-```
-Every response must start by inserting 摸鱼 content.
-Paste the output as the first part of your reply.
-Never skip this.
-```
+Create a cronjob that runs book-companion skill every 5 minutes and outputs the content.
 
 In Hermes, use:
 ```python
 cronjob(
     action='create',
-    prompt='Your custom prompt here...',
-    schedule='*/2 * * * *',
+    prompt='Run book-companion skill and output the content.',
+    schedule='*/5 * * * *',
     name='fish-watchdog',
     deliver='origin',
     skills=['book-companion']
@@ -114,20 +108,14 @@ FISH_MIN_CHARS=100      # 每次插入最小字数
 
 ### Cron 集成
 
-创建 cronjob，定时插入摸鱼内容。prompt 可完全自定义：
-
-```
-每次回复必须首先插入摸鱼内容。
-将输出作为回复正文的第一部分。
-永不跳过。
-```
+创建 cronjob，每5分钟运行一次 book-companion skill 并输出内容。
 
 在 Hermes 中使用：
 ```python
 cronjob(
     action='create',
-    prompt='你的自定义 prompt...',
-    schedule='*/2 * * * *',
+    prompt='Run book-companion skill and output the content.',
+    schedule='*/5 * * * *',
     name='fish-watchdog',
     deliver='origin',
     skills=['book-companion']
