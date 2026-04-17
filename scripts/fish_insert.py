@@ -91,7 +91,7 @@ def get_fish_content(min_chars):
         result.append(item)
         total_len += len(item)
 
-    return "\n".join(result)
+    return "\n\n".join(result)
 
 
 def cmd_config(args):
