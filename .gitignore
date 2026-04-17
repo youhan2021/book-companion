@@ -1,0 +1,7 @@
+# 敏感配置
+config.env
+fish_queue.json
+
+# Python
+__pycache__/
+*.pyc
