@@ -1,70 +1,58 @@
 ---
 name: book-companion
-description: 摸鱼skill - 插入古典中文摘录到对话中
+description: 摸鱼skill - 加载后每条回复自动夹带摸鱼内容
 ---
 
 # book-companion
 
-两个功能：**添加内容** 和 **发出内容**。
+加载此 skill = 开启摸鱼模式。每条回复前自动从队列取出一条内容拼入回答。
 
-## 添加内容
+**关闭：** 告诉用户"关掉摸鱼"即可。
 
-从 URL 提取文本填充队列（添加前清空旧队列）：
-```bash
-python3 scripts/add_from_url.py <URL>
-```
+## 队列内容（当前）
 
-## 发出内容
-
-运行脚本输出摸鱼内容：
-```bash
-python3 scripts/fish_insert.py
-```
-
-## 管理队列
-
-```bash
-python3 scripts/fish_queue.py status   # 查看状态
-python3 scripts/fish_queue.py clear    # 清空队列
-```
+`fish_queue.json` — 队列文件，位于技能根目录。
 
 ## 配置
 
 `config.env`（技能根目录）：
 ```
-FISH_MIN_CHARS=100
-ACTIVITY_LOG=/home/ubuntu/.hermes/logs/agent.log
+FISH_MIN_CHARS=300
+FISH_TRIGGER=～～
 ```
 
-## 队列文件
+## 脚本说明
 
-`fish_queue.json`（技能根目录下）
+### fish_insert.py
+每次运行从队列 pop 一条内容输出。**由 agent 在回复前调用**，不是定时执行。
 
-格式：`{"queue": [...], "last_sent_at": "ISO时间"}`
-
-## 活动检测设计（重要）
-
-**不要在脚本里检测 Telegram 活动**，因为：
-- `session_search` 在 cron 隔离环境里看不到 Telegram DM 会话
-- `gateway.log` 只记录 bot → user 的 outbound 消息，没有 user → bot 的 inbound
-- `agent.log` 有 inbound 记录，但路径可能因部署而异
-
-正确做法：活动检测逻辑写在 **cron prompt** 里，脚本只负责输出。
-
-## cron 创建 prompt
-
-**添加内容：**
-```
-Run book-companion skill: add content from <URL> to the queue.
+### fish_queue.py
+队列管理工具：
+```bash
+python3 scripts/fish_queue.py status   # 查看队列状态
+python3 scripts/fish_queue.py clear    # 清空队列
 ```
 
-**创建 cron（每5分钟，有新对话才发）：**
+### add_from_url.py
+从 URL 提取文本填充队列（添加前清空旧队列）：
+```bash
+python3 scripts/add_from_url.py <URL>
 ```
-Create a book-companion cron job: every 5 minutes:
-1. Read last_sent_at from ~/.hermes/skills/leisure/book-companion/fish_queue.json
-2. grep the ACTIVITY_LOG file for "inbound message: platform=telegram" to get the latest Telegram message timestamp
-3. If the latest message is older than last_sent_at + 30 seconds, output nothing (empty response suppresses delivery)
-4. If there is a newer message, run: cd ~/.hermes/skills/leisure/book-companion && python3 scripts/fish_insert.py
-5. Do NOT add any explanation, commentary, or extra text
-Name it `book-companion-runner`, deliver to origin.
+
+## 使用方式
+
+**开启摸鱼（每条回复都带）：**
 ```
+加载 book-companion
+```
+→ agent 每次回复前自动调用 `fish_insert.py`，把内容拼入回答。
+
+**关闭摸鱼：**
+```
+关掉摸鱼
+```
+→ agent 停止夹带，skill 仍加载但不再执行注入。
+
+---
+
+⚠️ 注意：skill 加载依赖 agent 配合执行脚本。如果 agent 跳过或不听话，用法会不稳定。
