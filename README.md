@@ -1,51 +1,54 @@
 # book-companion 读书陪伴技能
 
-> 📚 Load this skill to inject reading excerpts into every reply
+> 📚 Inject reading excerpts into every reply — load once, enjoy forever
 
 ---
 
-**Jump to: [English](#-english) | [中文](#-中文)**
+**Jump to: [🇺🇸 English](#-english) | [🇨🇳 中文](#-中文)**
 
 ---
 
 ## 🇺🇸 English
 
-### How It Works
+### What It Does
 
-**Load the skill** → Every reply automatically includes a passage from the queue.
+Load this skill → Every reply automatically includes a passage from the queue. No triggers, no cron — just load and go.
 
-**Unload / turn off** → Tell the agent to stop.
+### Installation
 
-### Activate
-
-```
-Load book-companion skill
-```
-
-→ Agent calls `fish_insert.py` before every reply, concatenating a passage to the response.
-
-### Deactivate
-
-```
-Turn off book-companion
+```bash
+cd ~/.hermes/skills/leisure
+git clone https://github.com/youhan2021/book-companion.git
+cd book-companion
+git remote set-url origin https://<YOUR_TOKEN>@github.com/youhan2021/book-companion.git
 ```
 
-→ Agent stops injecting content. Skill remains loaded but idle.
+### Setup
 
-### Add Content
-
-Fill the queue from a URL (clears old queue first):
-
+```bash
+cd book-companion
+cp config.env.example.txt config.env
 ```
-Run book-companion skill: add content from https://www.purepen.com/sgyy/001.htm to the queue.
+
+Optionally fill the queue with content from a URL:
+```bash
+python3 scripts/add_from_url.py https://www.purepen.com/sgyy/001.htm
 ```
+
+### Usage
+
+| Command | Effect |
+|---------|--------|
+| `Load book-companion` | Start mò yú — every reply gets a passage |
+| `Load book-companion, add from <url>` | Clear queue → load url → start mò yú |
+| `Add <url> to mò yú queue` | Load content only, no mò yú |
+| `Turn off book-companion` | Stop injecting, skill stays in memory |
 
 ### Config
 
-`config.env` (skill root directory):
+`config.env`:
 ```
 FISH_MIN_CHARS=300
-FISH_TRIGGER=～～
 ```
 
 ### Manage Queue
@@ -59,48 +62,51 @@ python3 scripts/fish_queue.py clear    # clear queue
 
 ## 🇨🇳 中文
 
-### 工作原理
+### 功能说明
 
-**加载 skill** → 每条回复自动夹带一条队列中的内容。
+加载此 skill → 每条回复自动夹带一条队列中的内容。不需要触发词，不需要定时任务，加载就能用。
 
-**关闭** → 告诉 agent 停掉即可。
+### 安装方法
 
-### 开启摸鱼
-
-```
-加载 book-companion
-```
-
-→ Agent 每次回复前调用 `fish_insert.py`，把摸鱼内容拼入回答。
-
-### 关闭摸鱼
-
-```
-关掉摸鱼
+```bash
+cd ~/.hermes/skills/leisure
+git clone https://github.com/youhan2021/book-companion.git
+cd book-companion
+git remote set-url origin https://<YOUR_TOKEN>@github.com/youhan2021/book-companion.git
 ```
 
-→ Agent 停止夹带，skill 仍加载但不执行注入。
+### 初始化
 
-### 添加内容
-
-从 URL 提取文本填充队列（添加前清空旧队列）：
-
+```bash
+cd book-companion
+cp config.env.example.txt config.env
 ```
-运行 book-companion skill：从 https://www.purepen.com/sgyy/001.htm 添加内容到队列。
+
+可选：先用 URL 填充队列内容：
+```bash
+python3 scripts/add_from_url.py https://www.purepen.com/sgyy/001.htm
 ```
+
+### 用法
+
+| 命令 | 效果 |
+|------|------|
+| `加载 book-companion` | 开启摸鱼，每条回复都夹带一条内容 |
+| `加载 book-companion，从 <url> 添加内容` | 清空队列 → 加载 url 内容 → 开启摸鱼 |
+| `加载 <url> 内容到摸鱼队列` | 仅加载内容，不开启摸鱼 |
+| `关闭 book-companion` | 停止夹带，skill 保留在内存中 |
 
 ### 配置
 
-`config.env`（技能根目录）:
+`config.env`:
 ```
 FISH_MIN_CHARS=300
-FISH_TRIGGER=～～
 ```
 
 ### 管理队列
 
 ```bash
-python3 scripts/fish_queue.py status   # 查看队列
+python3 scripts/fish_queue.py status   # 查看队列状态
 python3 scripts/fish_queue.py clear    # 清空队列
 ```
 

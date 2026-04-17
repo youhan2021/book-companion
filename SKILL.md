@@ -7,19 +7,25 @@ description: 摸鱼skill - 加载后每条回复自动夹带摸鱼内容
 
 加载此 skill = 开启摸鱼模式。每条回复前自动从队列取出一条内容拼入回答。
 
-**关闭：** 告诉用户"关掉摸鱼"即可。
+## 用法
 
-## 队列内容（当前）
-
-`fish_queue.json` — 队列文件，位于技能根目录。
+| 命令 | 效果 |
+|------|------|
+| `加载 book-companion` | 开启摸鱼（队列已有内容自动复用） |
+| `加载 book-companion，从 <url> 添加内容` | 清空队列 → 加载 url 内容 → 开启摸鱼 |
+| `加载 <url> 内容到摸鱼队列` | 仅加载内容，不开启摸鱼 |
+| `关闭 book-companion` | 关闭摸鱼，skill 保留在内存中 |
 
 ## 配置
 
 `config.env`（技能根目录）：
 ```
 FISH_MIN_CHARS=300
-FISH_TRIGGER=～～
 ```
+
+## 队列文件
+
+`fish_queue.json` — 位于技能根目录，加载 skill 后队列内容持久化。
 
 ## 脚本说明
 
@@ -27,7 +33,6 @@ FISH_TRIGGER=～～
 每次运行从队列 pop 一条内容输出。**由 agent 在回复前调用**，不是定时执行。
 
 ### fish_queue.py
-队列管理工具：
 ```bash
 python3 scripts/fish_queue.py status   # 查看队列状态
 python3 scripts/fish_queue.py clear    # 清空队列
@@ -39,20 +44,6 @@ python3 scripts/fish_queue.py clear    # 清空队列
 python3 scripts/add_from_url.py <URL>
 ```
 
-## 使用方式
-
-**开启摸鱼（每条回复都带）：**
-```
-加载 book-companion
-```
-→ agent 每次回复前自动调用 `fish_insert.py`，把内容拼入回答。
-
-**关闭摸鱼：**
-```
-关掉摸鱼
-```
-→ agent 停止夹带，skill 仍加载但不再执行注入。
-
 ---
 
-⚠️ 注意：skill 加载依赖 agent 配合执行脚本。如果 agent 跳过或不听话，用法会不稳定。
+⚠️ 注意：skill 依赖 agent 主动调用脚本，偶尔可能跳过，不保证 100% 稳定。
